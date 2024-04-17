@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: A template for AWS lambda function.
+
+Parameters:
+  MyLambdaFunctionName:
+    Type: String
+    Description: Specifies the name of the lambda function.
+
+Resources:
+  HelloLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Ref MyLambdaFunctionName
+      Role: !ImportValue MyLambdaPolicyARN
+      Runtime: python3.12
+      Handler: index.my_handler
+      Code:
+        ZipFile: |
+          def my_handler(event, context):
+            for record in event['Records']:
+              body = record['body']
+            print("Message from SQS : " + body)
+
+Outputs:
+  LambdaARN:
+    Description: Gives the ARN of Lambda.
+    Value: !GetAtt [HelloLambdaFunction, Arn]
+    Export:
+      Name: LambdaARN

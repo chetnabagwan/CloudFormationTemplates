@@ -1,0 +1,22 @@
+Description: Describe a role for lambda functions to give it permission
+Resources:
+  LambdaRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - "sts:AssumeRole"
+      Description: Role for lambda service
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+Outputs:
+  OutputName:
+    Description: Arn of the role
+    Value: !GetAtt LambdaRole.Arn
+    Export:
+      Name: RoleArn

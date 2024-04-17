@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: A template for AWS SQS service.
+
+Parameters:
+  MyQueueName:
+    Type: String
+    Description: Specifies the name of the queue.
+
+Resources:
+  MySQSQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: !Ref MyQueueName
+
+Outputs:
+  QueueURL:
+    Description: Gives the URL of the SQS Queue.
+    Value: !Ref MySQSQueue
+  QueueName:
+    Description: Gives the name of SQS Queue.
+    Value: !GetAtt [MySQSQueue, QueueName]
+  QueueARN:
+    Description: Gives the ARN of SQS Queue.
+    Value: !GetAtt [MySQSQueue, Arn]
+    Export:
+      Name: QueueARN

@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  TopicName:
+    Description: 'SNS topic name'
+    Type: String
+    Default: 'TestTopic'
+Resources:
+  SNSTopic:
+    Type: 'AWS::SNS::Topic'
+    Properties:
+      TopicName: !Ref TopicName
+      KmsMasterKeyId: alias/aws/sns
+      Subscription:
+        - Endpoint: !ImportValue LambdaFuncArn
+          Protocol: "lambda"
+Outputs:
+  SNSTopicArn:
+    Description: SNS Topic ARN
+    Value: !Ref SNSTopic
+    Export:
+      Name: SNSTopicArn
+ 
